@@ -173,3 +173,212 @@ int main()
 }
 
 ```
+
+```C++
+//A+B和C (15)
+//题中说明输入在[-2^31, 2^31]之间
+//int 类型可承受的范围在-2^31 ~ 2^31 - 1，两个边缘的数求和必然是超出2^31，故结束类型需要定义long long（格式符为  "%lld"）
+#include <iostream>
+#include <stdio.h>
+#include <math.h>
+#include <string.h>
+const double eps = 1e-8;
+const double pi = acos(-1);
+#define Equ(a, b) (fabs((a) - (b))<(eps))
+#define Cpa(a, b) ((a) > (b))
+#define maxn 100001
+
+using namespace std;
+int main()
+{
+    long long A, B, C;//int 最大范围是2^31 -1
+    int T, n = 1;
+    scanf("%d", &T);
+    while(T--){
+        scanf("%lld %lld %lld", &A, &B, &C);
+        printf("Case #%d: %s\n", n, A + B > C? "true":"false");
+        n++;
+    }
+    return 0;
+}
+
+```
+```C++
+// 数字分类 (20)
+#include <iostream>
+#include <stdio.h>
+#include <math.h>
+#include <string.h>
+const double eps = 1e-8;
+const double pi = acos(-1);
+#define Equ(a, b) (fabs((a) - (b))<(eps))
+#define Cpa(a, b) ((a) > (b))
+#define maxn 100001
+
+void compute(int ls[], int N){
+    int sum_a = 0;
+    int ls_b[1001], b = -1, sum_b = 0, n2 = 0;
+    int c = 0;
+    double d = 0, sum_d = 0;
+    float avg_d;
+    int f1 = 0, f2;
+    for(int i = 0; i <N; i++){
+        if((ls[i] % 5 == 0) && (ls[i] % 2 == 0)) sum_a += ls[i];
+        if(ls[i] % 5 == 1){
+            b *= -1;
+            sum_b += ls[i] * b;
+            n2 += 1;
+        }
+        if(ls[i] % 5 == 2) c++;
+        if(ls[i] % 5 == 3){
+            sum_d += ls[i];
+            d++;
+        }
+        if(ls[i] % 5 == 4){
+            if(f1 < ls[i]) f1 = ls[i];
+        }
+    }
+
+    if(sum_a == 0) printf("N ");
+    else printf("%d ", sum_a);
+    if(n2 == 0) printf("N ");
+    else printf("%d ", sum_b);
+    if(c == 0) printf("N ");
+    else printf("%d ", c);
+    if(d == 0) printf("N ");
+    else printf("%.1f ", sum_d / d);
+    if(f1 == 0) printf("N\n");
+    else printf("%d\n", f1);
+
+}
+
+using namespace std;
+int main()
+{
+    int ls[1001];
+    int N;
+    while(scanf("%d", &N) != EOF){
+        for(int i = 0; i <N; i++){
+            scanf("%d", &ls[i]);
+        }
+        compute(ls, N);
+    }
+    return 0;
+}
+
+```
+
+```C++
+//部分A+B (15)
+//pow返回的其实是double型,有的时候会偏差那么一丢丢精度，需要适当取整；
+#include <iostream>
+#include <stdio.h>
+#include <math.h>
+#include <string.h>
+const double eps = 1e-8;
+const double pi = acos(-1);
+#define Equ(a, b) (fabs((a) - (b))<(eps))
+#define Cpa(a, b) ((a) > (b))
+#define maxn 100001
+
+
+using namespace std;
+int main()
+{
+
+    long long A, B;
+    int a, b;
+    while(scanf("%d %d %d %d", &A, &a, &B, &b) != EOF){
+
+        char ls_a[15], ls_b[15];
+        char str_a, str_b;
+        int n1 = 0, n2 = 0;
+        int sum_a = 0, sum_b = 0;
+
+        sprintf(ls_a, "%d", A);
+        sprintf(ls_b, "%d", B);
+        str_a = a + '0';
+        str_b = b + '0';
+        for(int i = 0; i <strlen(ls_a); i++){
+            if(str_a == ls_a[i]) n1++;
+        }
+        for(int i = 0; i <strlen(ls_b); i++){
+            if(str_b == ls_b[i]) n2++;
+        }
+        for(int i = 0; i <n1; i++){
+            sum_a += a * ceil(pow(10, i));
+        }
+        for(int i = 0; i <n2; i++){
+            sum_b += b * ceil(pow(10, i));
+        }
+        printf("%d\n", sum_a + sum_b);
+    }
+    return 0;
+}
+
+```
+```C++
+//该题核心在于将B、C、J三者转化为数字之后，通过简单运算数字比大小从而判断输赢，亮点在(k1 + 1) % 3 == k2成立恰好说明选手a赢选手b
+#include <iostream>
+#include <stdio.h>
+#include <math.h>
+#include <string.h>
+const double eps = 1e-8;
+const double pi = acos(-1);
+#define Equ(a, b) (fabs((a) - (b))<(eps))
+#define Cpa(a, b) ((a) > (b))
+#define maxn 100001
+
+int trans(char p){
+    if(p == 'B') return 0;
+    if(p == 'C') return 1;
+    if(p == 'J') return 2;
+
+}
+
+using namespace std;
+int main()
+{
+
+    int N;
+    char A, B;
+    int n_a = 0, n_b = 0, n = 0;
+    char ls_info[4] = {'B', 'C', 'J'}, ls_copy_a[4], ls_copy_b[4];
+    int a_ls[4] = {0}, b_ls[4] = {0};
+    int k1, k2;
+    scanf("%d", &N);
+    for(int i = 0; i <N; i++){
+        getchar();
+        scanf("%c %c", &A, &B);
+        k1 = trans(A);
+        k2 = trans(B);
+        if((k1 + 1) % 3 == k2){
+            n_a++;
+            a_ls[k1]++;
+        }
+        else if(k1 == k2){
+            n++;
+        }
+        else{
+            n_b++;
+            b_ls[k2]++;
+        }
+    }
+    printf("%d %d %d\n", n_a, n, n_b);
+    printf("%d %d %d\n", n_b, n, n_a);
+    // 下段语句可作为寻找数组种最大元素的位置的通用语句，比冒泡排序复杂度低，更易于理解
+    int id1 = 0, id2 = 0;
+    for(int i = 0; i <3; i++){
+        if(a_ls[id1] < a_ls[i]) id1 = i;
+        if(b_ls[id2] < b_ls[i]) id2 = i;
+    }
+    printf("%c %c", ls_info[id1], ls_info[id2]);
+
+    return 0;
+}
+
+```
+## 练习册上的题
+```C++
+
+```
