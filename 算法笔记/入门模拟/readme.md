@@ -380,5 +380,222 @@ int main()
 ```
 ## 练习册上的题
 ```C++
+//1042 Shuffling Machine (20分)
+//该题将一个已知的数组，按照给出的顺序重新排列。（用一个新数组记录重新排列的顺序即可）
+#include <iostream>
+#include <stdio.h>
+#include <math.h>
+#include <string.h>
+#include <time.h>
+const double eps = 1e-8;
+const double pi = acos(-1);
+#define Equ(a, b) (fabs((a) - (b))<(eps))
+#define Cpa(a, b) ((a) > (b))
+#define maxn 100001
+
+
+
+
+using namespace std;
+int main()
+{
+    const int N = 54;
+    char ls_letter[6] = "SHCDJ";
+    int ls_str[N + 1];
+    int ls_rev[N + 1];
+    int ls_end[N + 1];
+    int K;
+    int letter, num;
+    for(int i = 1; i <=54; i++){
+        ls_str[i] = i;
+    }
+    scanf("%d", &K);
+    for(int i = 1; i <=N; i++){
+        scanf("%d", &ls_rev[i]);
+    }
+    for(int i = 1; i <=K; i++){
+        for(int i = 1; i <=N; i++){
+            ls_end[ls_rev[i]] = ls_str[i];
+        }
+        for(int i = 1; i <=N; i++){
+            ls_str[i] = ls_end[i];
+        }
+    }
+    for(int i = 1; i <=N; i++){
+        letter = (ls_str[i] - 1) / 13;
+        num = (ls_str[i] - 1) % 13 + 1;
+        if(i != N){
+            printf("%c%d ", ls_letter[letter], num);
+        }
+        else{
+            printf("%c%d", ls_letter[letter], num);
+        }
+//        if(i != 1) printf(" ");
+//        printf("%c%d", ls_letter[letter], num);
+//        if(i != N) printf(" ");
+
+    }
+    return 0;
+}
+
+```
+```C++
+//复习
+//1065 A+B and C (64bit) (20分)
+//该题看似幼儿化实则隐藏着细节，题中数字范围是[-2^63, 2^63]，这让人想起了需要用long long来替代int，有一种情况当A、B均为2^63级别时候，相加会超出2^63达到2^64的级别，
+//此时long long将发生溢出，考察点在此处出现。
+//A、B均为+2^63级别时候，A+B < 0。此时叫做"正溢出"。
+//A、B均为-2^63级别时候，A+B >= 0(别忽视这个0，价值4分)。此时叫做"负溢出"。
+#include <iostream>
+#include <stdio.h>
+#include <math.h>
+#include <string.h>
+#include <time.h>
+const double eps = 1e-8;
+const double pi = acos(-1);
+#define Equ(a, b) (fabs((a) - (b))<(eps))
+#define Cpa(a, b) ((a) > (b))
+#define maxn 100001
+
+
+
+
+using namespace std;
+int main()
+{
+    long long A, B, C, sum;
+    int N;
+    scanf("%d", &N);
+    int n = 0;
+    while(N--){
+        scanf("%lld %lld %lld", &A, &B, &C);
+        n++;
+        sum = A + B;
+        if(A > 0 && B > 0 && sum < 0) printf("Case #%d: true\n", n);
+        else if(A < 0 && B < 0 && sum >= 0) printf("Case #%d: false\n", n);
+        else printf("Case #%d: %s\n", n, sum > C? "true":"false");
+    }
+
+
+    return 0;
+}
+
+```
+
+```C++
+//复习
+//1002 A+B for Polynomials (25分)
+// 两个多项式相加，输出结果多项式
+//传统方法，两个多项式各一个数组保存，相加结果保存到一个新数组。
+//该题有说指数的范围从0~N，同时也是整数，故指数可以拿来当数组的下标，这样一来只需要保存结果的一个数组就够了（指数代表下标，数组存放系数，有新数进来就加到对应指数(下标)的系数上）
+#include <iostream>
+#include <stdio.h>
+#include <math.h>
+#include <string.h>
+#include <time.h>
+const double eps = 1e-8;
+const double pi = acos(-1);
+#define Equ(a, b) (fabs((a) - (b))<(eps))
+#define Cpa(a, b) ((a) > (b))
+#define maxn 1111
+
+using namespace std;
+int main()
+{
+    double ls[maxn] = {};
+    int K, n = 0;
+    int a;
+    double b;
+    int len = 0;
+
+    for(int i = 0; i <2; i++){
+        scanf("%d", &K);
+        if(n == 0){
+            for(int i = 0; i <K; i++){
+                scanf("%d %lf", &a, &b);
+                ls[a] += b;
+            }
+            n++;
+        }
+        else{
+            for(int i = 0; i <K; i++){
+                scanf("%d %lf", &a, &b);
+                ls[a] += b;
+        }
+        }
+    }
+    for(int i = 0; i <maxn; i++){
+        if(ls[i] != 0) len++;
+    }
+    printf("%d", len);
+    for(int i = 1; i <=maxn; i++){
+        if(ls[maxn - i] != 0){
+            printf(" ");
+            printf("%d %.1lf", maxn - i, ls[maxn - i]);
+        }
+    }
+
+    return 0;
+}
+
+```
+
+```C++
+//多项式相乘，是上面一样，值得注意的是，如果像这样代码以幂指数为下标的，那么A*B后的幂指数范围就变到了[0~A+B]，所以开始定义结果数组时候需要把长度设为maxn * 2
+#include <iostream>
+#include <stdio.h>
+#include <math.h>
+#include <string.h>
+#include <time.h>
+const double eps = 1e-8;
+const double pi = acos(-1);
+#define Equ(a, b) (fabs((a) - (b))<(eps))
+#define Cpa(a, b) ((a) > (b))
+#define maxn 1111
+
+
+
+
+using namespace std;
+int main()
+{
+    double ls_a[maxn] = {0.0}, ls_b[maxn] = {0.0}, ls_c[2 * maxn] = {0.0};
+    int A, B, len_c = 0, K, T;
+    double a, b;
+
+
+
+
+    scanf("%d", &K);
+    for(int i = 0; i <K; i++){
+        scanf("%d %lf", &A, &a);
+        ls_a[A] = a;
+    }
+    scanf("%d", &T);
+    for(int i = 0; i <T; i++){
+        scanf("%d %lf", &B, &b);
+        ls_b[B] = b;
+    }
+    for(int i = 0; i <=1000; i++){
+        for(int j = 0; j <=1000; j++){
+            if(ls_a[i] * ls_b[j] != 0){
+                ls_c[i + j] += ls_a[i] * ls_b[j];
+            }
+        }
+    }
+
+    for(int i = 0; i <maxn * 2; i++){
+        if(ls_c[i] != 0) len_c++;
+    }
+    printf("%d", len_c);
+    for(int i = maxn * 2 - 1; i >= 0; i--){
+        if(ls_c[i] != 0){
+            printf(" ");
+            printf("%d %.1lf", i, ls_c[i]);
+        }
+    }
+
+    return 0;
+}
 
 ```
