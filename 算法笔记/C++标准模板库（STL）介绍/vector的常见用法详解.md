@@ -12,7 +12,21 @@
 
 迭代器访问：vector<typename>::iterator it = vi.begin(); //vi.begin()为首元素**地址**，it指向这个地址
 
-输出： *(it + i) //数组内存连续，i ∈ [0, n]，所以直接加整数即可，因为是地址注意使用"*"取该地址的值
+输出： 
+```C++
+//第一种写法STL通用
+vector <int> ls;
+for(vector<int>::iterator i = ls.begin(); i != ls.end(); i++){ // 迭代器vector<int>::iterator不支持比大小，所以只能用 !=
+    printf("%x", *i); //这里用*获取地址下的值
+}
+
+//第二种写法vertor、string特有
+vector<int>::iterator it = ls.begin()
+for(int i = 0; i < n; i++){
+    printf("%x", *(it + i));
+}
+```
+*(it + i) //数组内存连续，i ∈ [0, n]，所以直接加整数即可，因为是地址注意使用"*"取该地址的值
 
 STL容器中，只用在vector、string中才可以用it + i访问每一位（也就是说这个情况下才可以看做内存连续）
 
