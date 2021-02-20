@@ -8,6 +8,9 @@ PAT
 //1063 Set Similarity (25 分)
 //一个5分数据点报超时，确实遍历两个集合的元素插入到新集合有点耗时
 //如果遍历一个集合的元素到另外一个集合查找，复杂度可以减至一半
+//代码待修改
+//复习
+
 #include <iostream>
 #include <stdio.h>
 #include <string.h>
