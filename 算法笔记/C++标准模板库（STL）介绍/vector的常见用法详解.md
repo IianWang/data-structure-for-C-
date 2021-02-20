@@ -44,3 +44,68 @@ eg. v.insert(vi.begin() + 2, -1); 将-1插入vi[2]的位置
 
 
 用途：后续更新，主要看看哪种情况使用vertor替代tyname[]更好，达到那种不用会麻烦死的地步
+
+
+codeup
+
+```C++
+//问题 A: Course List for Student (25)
+//按科目输入选择该课的学生列表，最后按学生输出该学生选择的所有科目（一个学生可以选多科）
+//总结一个思路一个误区
+//思路：设置二维数组，hash每个学生的姓名(误区在这里)返回int类型值K，在数组K处添入数字i(课程代号)，最后根据K输出i
+//关于数组开多大？hash一节有提到转换阈值根据进制数来定：eg.26进制，26^len - 1。
+//关于二维数组，这里的二维数据用的是vector类型，vector自带size，会比较方便读取二维内的元素
+#include <iostream>
+#include <stdio.h>
+#include <string.h>
+#include <algorithm>
+#include <map>
+#include <math.h>
+#include <vector>
+#define maxn 26 * 26 * 26 * 26
+
+using namespace std;
+
+vector<int> ls[maxn];
+
+int hash_str(char str[]){
+    int id = 0;
+    for (int i = 0; i < 3; i++) {
+        id = id * 26 + str[i] - 'A';
+    }
+    id = id * 26 + str[3] - '0';
+    return id;
+}
+
+
+int main(){
+    int N, K;
+    scanf("%d %d", &N, &K);
+    
+    for (int i = 0; i < K; i++) {
+        int courses, users;
+        scanf("%d %d", &courses, &users);
+        for (int j = 0; j < users; j++) {
+            char name[10];
+            scanf("%s", name);
+            ls[hash_str(name)].push_back(courses);
+        }
+    }
+    
+    for (int i = 0; i < N; i++) {
+        char name[10];
+        scanf("%s", name);
+        printf("%s %d", name, ls[hash_str(name)].size());
+        if (ls[hash_str(name)].size()) {
+            sort(ls[hash_str(name)].begin(), ls[hash_str(name)].end());
+            for (vector<int>::iterator it = ls[hash_str(name)].begin(); it != ls[hash_str(name)].end(); it++) {
+                printf(" %d", *it);
+            }
+        }
+        printf("\n");
+    }
+
+    return 0;
+};
+
+```
