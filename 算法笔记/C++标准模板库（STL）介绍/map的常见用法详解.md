@@ -270,3 +270,88 @@ int main(){
 };
 
 ```
+
+```C++
+//1022 Digital Library (30 分)
+//优先复习！
+//考察点1：map<type, set<type>> 这种嵌套映射的使用及如何作为参数传入函数
+//考察点2：“xxx xxx xxx”带空格的字符串，如何以空格为分割按单词进行读取（while(cin读取单词) getchar读取空格，getchar最后一次读取的是回车检测到就跳出while，好用！）
+//考察点3：多种读取函数之间的配合，如果cin或scanf读取的和getline不是一行的内容，那么它们两个之间要加getchar读取空格，否则getline就会把后面的换行读入
+
+//几个新get的点
+//using namespace std;要紧接着#include...声明，如果放到一些类型声明之后，会出现意想不到的错误
+//string这个模块find和substr在期间尝试比较多
+
+#include <iostream>
+#include <stdio.h>
+#include <math.h>
+#include <string.h>
+#include <algorithm>
+#include <map>
+#include <set>
+const double eps = 1e-8;
+const double odds = 0.65;
+#define Equ(a, b) (fabs((a) - (b))<(eps))
+#define Cpa(a, b) ((a) > (b))
+#define maxn 100010
+using namespace std;
+
+map<string, set<int> > title, author, keyword, publisher, year;
+
+void query(map<string, set<int> >& mp, string& str){//这里加上引用是为了对数据量大的数据点避免超时，map, string的参数传递较慢
+    if(mp.find(str) == mp.end()) printf("Not Found\n");
+    else{
+        for(set<int>::iterator it = mp[str].begin(); it != mp[str].end(); it++){
+            printf("%07d\n", *it); //两个数据点因为这个07所影响
+        }
+    }
+}
+
+int main()
+{
+
+    int N;
+    string tit, aut, key, pub, yr;
+    cin >> N;
+    while(N--){
+        int book;
+        cin >> book;
+        getchar();
+
+        getline(cin, tit);
+        title[tit].insert(book);
+        getline(cin, aut);
+        author[aut].insert(book);
+
+        while(cin >> key){
+            keyword[key].insert(book);
+            char c = getchar(); 
+            if(c == '\n') break;
+        }
+
+        getline(cin, pub);
+        publisher[pub].insert(book);
+
+        getline(cin, yr);
+        year[yr].insert(book);
+        }
+
+    int M, no;
+    string temp;
+    cin >> M;
+    for(int i = 1; i <= M; i++){
+        scanf("%d: ", &no);
+        getline(cin, temp);
+        cout << no << ": " << temp << '\n';
+        if(no == 1) query(title, temp);
+        else if(no == 2) query(author, temp);
+        else if(no == 3) query(keyword, temp);
+        else if(no == 4) query(publisher, temp);
+        else if(no == 5) query(year, temp);
+
+
+    }
+
+    return 0;
+}
+```
