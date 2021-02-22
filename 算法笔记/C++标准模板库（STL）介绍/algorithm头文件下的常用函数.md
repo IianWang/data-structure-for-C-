@@ -43,5 +43,5 @@ eg.sort(vi.begin, vi.end(), cmp)
 
 - lower_bound(first, last, val) 第一个大于等于val的位置
 - upper_bound(first, last, val) 第一个大于val的位置(与上面的相比就是考虑到会有许多并列的元素)
-- 
+
 这两个之前在二分查找(4.5.1)讲过，前提是数组/容器有序，不断的找mod中点，将left或right移动到中点处附近，直到找到想要的元素，找不到最终就会停留在该元素应该出现的位置
