@@ -4,6 +4,9 @@
 using namespace std;
 
 
+**string.c_str() 真的很好用，任何只接受char[]类型的函数，string都可以调用c_str()来传入，解决格式问题。**
+
+
 **1.定义及访问**
 string str;
 string str = "abcd";
