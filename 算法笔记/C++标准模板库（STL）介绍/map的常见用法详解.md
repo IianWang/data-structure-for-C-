@@ -180,94 +180,62 @@ int main(){
 //再就是上面提到的bug，总之遇到了就用+吧，先避开
 //总结：string系列还是用的不熟
 //复习+重做！
+
+//二刷代码，map<string, int>字符串遍历很方便，不过还是在第三个数据点报错，看其他的教程发现原因在于我将key入map的是读到' '作为触发条件，从样例来看显然是这样
+//不过巧的是如：aaa///bbb，空格为条件则会出现aaabbb连在一起，但实际上aaa、bbb两个，故将空格为触发条件改为不为数字、小写、大写字母之外的所有字符，都写在了judge里
 #include <iostream>
-#include <stdio.h>
-#include <string.h>
-#include <algorithm>
-#include <map>
-#include <math.h>
-#include <vector>
-#include <set>
-#define maxn 100100
-
+#include<bits/stdc++.h>
+const double eps = 1e-8;
+const double odds = 0.65;
+#define Equ(a, b) (fabs((a) - (b))<(eps))
+#define Cpa(a, b) ((a) > (b))
+#define maxn 51
+const int INF = 100000000;
 using namespace std;
-
 map<string, int> mp;
 
-int main(){
-    string str;
+bool judge(char s){
+    if('0' <= s && s <= '9') return true;
+    if('a' <= s && s <= 'z') return true;
+    if('A' <= s && s <= 'Z') return true;
+    return false;
+}
+
+int main()
+{
+    string str, temp = "";
     getline(cin, str);
-    int start = (int)str.find('"');
-    int over = (int)str.find('"', start + 1);
-    str = str.substr(start + 1, over - start - 1);
-    
-    for (int i = 0; i <= str.length(); i++) {
-        if (str[i] >= 'A' && str[i] <= 'Z') {
-            str[i] = str[i] + 32;
-        }
-        else if(str[i] >= 'a' && str[i] <= 'z'){
-            continue;
-        }
-        else if(str[i] >= '0' && str[i] <= '9'){
-            continue;
-        }
-        else if(str[i] == ' '){
-            continue;
-        }
-        else{
-            str.erase(i, 1);
-        }
-    }
-    
-//    string temp_str;
-    char temp_str[100];
-//    printf("%s\n", str.c_str());
-    
-    int ind = 0;
-//    printf("str = %s\n", str.c_str());
-    for (int i = 0; i < str.length(); i++) {
-        if (str[i] != ' ') {
-            temp_str[ind++] = str[i];
-        }
-        else{
-            temp_str[ind] = '\0';
-//            printf("temp = %s\n", temp_str);
-            if (strcmp(temp_str, "") != 0) {
-                
-                if (mp.find(temp_str) == mp.end()) {
-                    mp[temp_str] = 1;
-                }
-                else mp[temp_str]++;
-                
-                ind = 0;
-                strcpy(temp_str, "");
+    for(int i = 0; i < str.length(); i++){
+        if(judge(str[i]) == false && temp.length() > 0){
+            if(mp.find(temp) != mp.end()){
+                mp[temp]++;
             }
+            else mp[temp] = 1;
+            temp = "";
+            continue;
         }
-//        printf("\n");
+        else if(('0' <= str[i] && str[i] <= '9') || ('a' <= str[i] && str[i] <= 'z')) temp += str[i];
+        else if('A' <= str[i] && str[i] <= 'Z') temp += (str[i] + 32);
     }
-    temp_str[ind] = '\0';
-    if (strcmp(temp_str, "") != 0) {
-        if (mp.find(temp_str) == mp.end()) {
-            mp[temp_str] = 1;
+
+    if(temp.length() > 0){
+        if(mp.find(temp) != mp.end()){
+            mp[temp]++;
         }
-        else mp[temp_str] = mp[temp_str] + 1;
-        
-        ind = 0;
-        strcpy(temp_str, "");
+        else mp[temp] = 1;
     }
-    
-    string max_name;
-    int mx = 0;
-    for (map<string, int>::iterator it = mp.begin(); it != mp.end(); it++) {
-        if ((it -> second) > mx) {
-            mx = it -> second;
-            max_name = it -> first;
+    int MAX = 0;
+    string temp2 = "";
+    for(map<string, int>::iterator it = mp.begin(); it != mp.end(); it++){
+        if(it -> second > MAX) {
+            MAX = it -> second;
+            temp2 = it -> first;
         }
     }
-    printf("%s %d\n", max_name.c_str(), mx);
+    printf("%s %d\n", temp2.c_str(), MAX);
 
     return 0;
-};
+}
 
 ```
 
