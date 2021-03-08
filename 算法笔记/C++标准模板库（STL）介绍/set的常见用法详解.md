@@ -83,4 +83,52 @@ int main(){
     return 0;
 };
 
+//二刷，set集合直接可以复制给另一个set变量，所以这块的复杂度就省了，另一个就是计算交集和并集了
+//并集：设置一个临时set temp，将set a复制给 temp，遍历set b insert到 temp内，最后temp的长度即a、b的并集
+//交集：交集可以通过公式计算得出a.size() - (temp.size() - b.size())即为交集的个数
+//输出%字符，只需再加一个%即可
+#include <iostream>
+#include<bits/stdc++.h>
+const double eps = 1e-8;
+const double odds = 0.65;
+#define Equ(a, b) (fabs((a) - (b))<(eps))
+#define Cpa(a, b) ((a) > (b))
+#define maxn 51
+const int INF = 100000000;
+using namespace std;
+set<int> ls[maxn];
+
+int main()
+{
+    int N;
+    scanf("%d", &N);
+    for(int i = 1; i <= N; i++){
+        int a;
+        scanf("%d", &a);
+        for(int j = 0; j < a; j++){
+            int b;
+            scanf("%d", &b);
+            ls[i].insert(b);
+        }
+    }
+    int M, x, y;
+    scanf("%d", &M);
+    for(int i = 0; i < M; i++){
+        scanf("%d %d", &x, &y);
+        set<int> temp;
+        temp = ls[y];
+        for(set<int>::iterator it = ls[x].begin(); it != ls[x].end(); it++){
+            temp.insert(*it);
+        }
+        double up, down;
+        down = temp.size();
+        up = ls[x].size() - (temp.size() - ls[y].size());
+        printf("%.1lf", up * 100.0 / down);
+        printf("%%");
+        printf("\n");
+    }
+
+    return 0;
+}
+
 ```
